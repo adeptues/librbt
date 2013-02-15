@@ -30,6 +30,43 @@ static void print_devs(libusb_device **devs)
 	}
 }
 
+static void printRobotInfo(libusb_device **devs){
+  	libusb_device *dev;
+	int i = 0;
+
+	while ((dev = devs[i++]) != NULL) {
+		struct libusb_device_descriptor desc;
+		int r = libusb_get_device_descriptor(dev, &desc);
+		if (r < 0) {
+			fprintf(stderr, "failed to get device descriptor");
+			return;
+		}
+
+        if((desc.idVendor == vid )&& (desc.idProduct == pid)) {
+	  struct libusb_config_descriptor * config;
+	  libusb_get_config_descriptor(dev,0,&config);
+	  struct libusb_interface  interface =  config->interface[0];
+	  struct libusb_interface_descriptor idesc = *interface.altsetting;
+	  
+	  
+            printf("Found Robot Arm Device!\n");
+	    printf("Vendor id: %d\n",desc.idVendor);
+	    printf("Product id: %d\n",desc.idProduct);
+	    printf("Device Class: %d\n",desc.bDeviceClass);
+	    printf("Number of Interfaces: %d\n",config->bNumInterfaces);
+	    printf("Number of end points: %d\n",idesc.bNumEndpoints);
+	    printf("End point address: %d\n",idesc.endpoint->bEndpointAddress);
+	    printf("End point descriptor type %d\n",idesc.endpoint->bDescriptorType);
+	    
+	    libusb_free_config_descriptor(config);
+        }
+
+		printf("%04x:%04x (bus %d, device %d)\n",
+			desc.idVendor, desc.idProduct,
+			libusb_get_bus_number(dev), libusb_get_device_address(dev));
+	}
+}
+
 
 ///Should find the robot arm device on the system and return a pointer to that device
 libusb_device * findRobotArm(libusb_device **devs){
@@ -51,17 +88,11 @@ libusb_device * findRobotArm(libusb_device **devs){
 
       return devPtr;
     }
-
-    
     
   }
 
   printf("could not find device robot arm with %d : %d ",vid,pid);
   return NULL;
-
-  
-  
-  
 }
 
 int main(void)
@@ -122,9 +153,11 @@ int main(void)
 
 	libusb_close(devh);
 	
+
+//printRobotInfo(devs);
 	
 
 	libusb_exit(NULL);//must be called when program quits
-	free(data);
+	//free(data);
 	return 0;
 }
