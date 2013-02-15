@@ -2,10 +2,11 @@
 #include <sys/types.h>
 
 #include <libusb.h>
+#include <stdlib.h>
 
 //defines
-#define id  4711
-#define part  0000
+#define vid  4711
+#define pid  0000
 
 /**
  * This is designed to be a user mode library for controlling a robot arm
@@ -44,8 +45,9 @@ libusb_device * findRobotArm(libusb_device **devs){
       return NULL;
     }
 
-    if((descr.idVendor == id )&& (descr.idProduct == part)){
+    if((descr.idVendor == vid )&& (descr.idProduct == pid)){
       printf("Found Robot Arm Device!\n");
+
 
       return devPtr;
     }
@@ -54,7 +56,7 @@ libusb_device * findRobotArm(libusb_device **devs){
     
   }
 
-  printf("could not find device robot arm with %d : %d ",id,part);
+  printf("could not find device robot arm with %d : %d ",vid,pid);
   return NULL;
 
   
@@ -65,7 +67,7 @@ libusb_device * findRobotArm(libusb_device **devs){
 int main(void)
 {
 	libusb_device **devs;
-	//libusb_device_handle ** devh;
+	libusb_device_handle * devh;
 	int r;
 	ssize_t cnt;
 
@@ -78,17 +80,51 @@ int main(void)
 	if (cnt < 0)//cnt number of returned devices 
 		return (int) cnt;
 
-	//print_devs(devs);
-	libusb_device * dev =  findRobotArm(devs);
+	//open device directly with vid and pid
+	devh = libusb_open_device_with_vid_pid(NULL,vid,pid);
 
-	if(dev != NULL){
-	  printf("find robot arm worksa\n");
+	if(devh == NULL){
+	  printf("Could not open Device\n");
+	  return -1;
 	}
-
-	//next step open device / claim interface and send data then free
 	
 	libusb_free_device_list(devs, 1);//free device list
 
+	//is there a kernel driver active
+	if(libusb_kernel_driver_active(devh,0) == 1){
+	  printf("Warning: kernel driver active attempting to detatch\n");
+	  if(libusb_detach_kernel_driver(devh,0) == 0){
+	    printf("kernel driver Detatched continueing ..\n");
+	  }else{
+	    printf("ERROR: Failed to detatch kernel driver!\n");
+	    return -1;
+	  }
+	  
+	}
+	int rtnCode = libusb_claim_interface(devh,0);
+	if(rtnCode < 0){
+	  printf("Failure: Could Not claim interface\n");
+	}
+	printf("Interface claimed\n");
+
+	unsigned char * data = (char *)malloc(3*sizeof(char));// 3bytes
+
+	//do io
+	
+	//memory clean up
+	printf("Cleaning up memory\n");
+	int rd = libusb_release_interface(devh,0);
+
+	if(rd < 0){
+	  printf("Warning: Something horrible has happened ... cannot release interface\n");
+	  return -1;
+	}
+
+	libusb_close(devh);
+	
+	
+
 	libusb_exit(NULL);//must be called when program quits
+	free(data);
 	return 0;
 }
