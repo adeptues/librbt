@@ -31,7 +31,7 @@ static void print_devs(libusb_device **devs)
 
 
 ///Should find the robot arm device on the system and return a pointer to that device
-libusb_device * findRobotArm(libusb_device **devs,libusb_device_handle ** devh){
+libusb_device * findRobotArm(libusb_device **devs){
   libusb_device * devPtr;
   
   int count = 0;
@@ -46,7 +46,7 @@ libusb_device * findRobotArm(libusb_device **devs,libusb_device_handle ** devh){
 
     if((descr.idVendor == id )&& (descr.idProduct == part)){
       printf("Found Robot Arm Device!\n");
-      libusb_open(devPtr,);
+
       return devPtr;
     }
 
