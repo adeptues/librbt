@@ -31,3 +31,6 @@ Project Target=librbt,librbt
 Use External Terminal=false
 Working Directory=
 isExecutable=false
+
+[Project]
+VersionControlSupport=kdevgit
