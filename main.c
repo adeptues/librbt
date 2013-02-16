@@ -160,14 +160,15 @@ int main(void)
 	printf("Interface claimed\n");
 
 	unsigned char * data = (char *)malloc(3*sizeof(char));// 3bytes
-	data[0] = 0;
-	data[1] = 0;
-	data[2] = 0xFF;
+	data[0] = 0x0;
+	data[1] = 0x0;
+	data[2] = 0x0;
 	int actual = 0;
 	//do io bulk transfer
 	printf("Sending data\n");
 	//int trans = libusb_bulk_transfer(devh, (129 | LIBUSB_ENDPOINT_OUT), data, 3, &actual, 1000);
-	int trans = libusb_interrupt_transfer(devh,(129 | LIBUSB_ENDPOINT_OUT),data,3,&actual,1000);
+	//int trans = libusb_interrupt_transfer(devh,(129 | LIBUSB_ENDPOINT_OUT),data,3,&actual,1000);
+	int trans = libusb_control_transfer(devh,0x40,6,0x100,0,data,3,2000);
 
 	if(trans == 0 && actual == 3){
 	  printf("wrote %s\n",libusb_error_name(trans));
