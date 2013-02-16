@@ -1,3 +1,4 @@
+//#pragma once
 #ifndef _ARMFUNC_H
 
 #define _ARMFUNC_H
@@ -15,20 +16,21 @@
 #define pid  0000
 
 //globals
-libusb_device **devs;
-libusb_device_handle * devh;
+
+extern  libusb_device **devs;
+extern libusb_device_handle * devh;
 
 //must be called first befor library use
 int libraryInit();
 
-//must be called when finished executing 
+//must be called when finished executing
 int libraryDispose();
 
 int isRobotArm(libusb_device * device);
 
-static void printRobotInfo(libusb_device **devs);
+void printRobotInfo(libusb_device **devs);
 
-static void print_devs(libusb_device **devs);
+void print_devs(libusb_device **devs);
 
 void msgToData(unsigned char * data,Message msg);
 

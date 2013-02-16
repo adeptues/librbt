@@ -1,19 +1,21 @@
+//#pragma once
 #ifndef _MOTORS_H
 
 #define _MOTORS_H
 
 #include <stdlib.h>
-
 #include "armfunc.h"
+#include "data.h"
 
-void lightOn();
+//#include "data.h"
 
-void stop();
+extern void lightOn();
+extern void stop();
 
-void moveMotor();
+extern void moveMotor();
 
-void closeClaw();
+extern void closeClaw();
 
-void openClaw();
+extern void openClaw();
 
-#endif
+#endif /* _MOTORS_H */

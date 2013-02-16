@@ -14,7 +14,7 @@ find_package(libusb-1.0 REQUIRED)
 include_directories(${LIBUSB_1_INCLUDE_DIR})
 
 #add sources to exe
-add_executable(librbt main.c armfunc.c armfunc.h data.h motors.c)
+add_executable(librbt main.c armfunc.c armfunc.h data.h data.c motors.c motors.h)
 #add_executable(librbt main.c ${HEADERS} ${SOURCE})
 #link librabrues
 target_link_libraries(librbt ${LIBUSB_1_LIBRARY})

@@ -1,3 +1,4 @@
+//#pragma once
 #ifndef _DATA_H
 
 #define _DATA_H
@@ -5,8 +6,7 @@
 #include <stdlib.h>
 //message struct for storing codes
 
-
-typedef struct{
+ typedef struct{
   char b1;
   char b2;
   char b3;
@@ -14,28 +14,28 @@ typedef struct{
 }Message;
 
 //valid messages
-const Message lighton = {0x0,0x0,0xff};
+extern const Message lighton;
 
-const Message stopCmd = {0x0,0x0,0x0};
+extern const Message stopCmd;
 
-const Message m1Open = {0x2,0x0,0x0};
+extern const Message m1Open;
 
-const Message m1Close = {0x1,0x0,0x0};
+extern const Message m1Close;
 
-const Message m2Up = {0x4,0x0,0x0};
+extern const Message m2Up;
 
-const Message m2Down = {0x8,0x0,0x0};
+extern const Message m2Down;
 
-const Message m3Up = {0x10,0x0,0x0};
+extern const Message m3Up;
 
-const Message m3Down = {0x20,0x0,0x0};
+extern const Message m3Down;
 
-const Message m4Up = {0x40,0x0,0x0};
+extern const Message m4Up;
 
-const Message m4Down = {0x80,0x0,0x0};
+extern const Message m4Down;
 
-const Message m5Clock = {0x0,0x1,0x0};
+extern const Message m5Clock;
 
-const Message m5Anti = {0x0,0x2,0x0};
+extern const Message m5Anti;
 
-#endif
+#endif /* _DATA_H */

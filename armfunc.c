@@ -5,6 +5,9 @@
 #include <libusb.h>
 #include <stdlib.h>
 
+libusb_device **devs;
+libusb_device_handle * devh;
+
 int libraryInit()
 {
     int r;
@@ -91,13 +94,16 @@ int isRobotArm(libusb_device * device){
 
 void msgToData(unsigned char* data, Message msg)
 {
-  data = (char *)malloc(sizeof(msg));
+  
   data[0] = msg.b1;
+  data[1] = msg.b2;
+  data[2] = msg.b3;
+  
 
 }
 
 
-static void printRobotInfo(libusb_device **devs){
+ void printRobotInfo(libusb_device **devs){
   	libusb_device *dev;
 	int i = 0;
 
@@ -134,7 +140,7 @@ static void printRobotInfo(libusb_device **devs){
 	}
 }
 
-static void print_devs(libusb_device **devs)
+ void print_devs(libusb_device **devs)
 {
 	libusb_device *dev;
 	int i = 0;
