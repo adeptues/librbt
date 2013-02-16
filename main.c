@@ -3,10 +3,9 @@
 
 #include <libusb.h>
 #include <stdlib.h>
+#include "data.h"
 
-//defines
-#define vid  4711
-#define pid  0000
+
 
 /**
  * This is designed to be a user mode library for controlling a robot arm
@@ -29,7 +28,7 @@ static void print_devs(libusb_device **devs)
 			libusb_get_bus_number(dev), libusb_get_device_address(dev));
 	}
 }
-
+/*
 static void printRobotInfo(libusb_device **devs){
   	libusb_device *dev;
 	int i = 0;
@@ -65,9 +64,9 @@ static void printRobotInfo(libusb_device **devs){
 			desc.idVendor, desc.idProduct,
 			libusb_get_bus_number(dev), libusb_get_device_address(dev));
 	}
-}
+}*/
 
-
+/*
 ///Should find the robot arm device on the system and return a pointer to that device
 libusb_device * findRobotArm(libusb_device **devs){
   libusb_device * devPtr;
@@ -93,8 +92,8 @@ libusb_device * findRobotArm(libusb_device **devs){
 
   printf("could not find device robot arm with %d : %d ",vid,pid);
   return NULL;
-}
-
+}*/
+/*
 int isRobotArm(libusb_device * device){
   struct libusb_device_descriptor desc;
   libusb_get_device_descriptor(device,&desc);
@@ -103,10 +102,12 @@ int isRobotArm(libusb_device * device){
   }
   return 0;
   
-}
+}*/
 
 int main(void)
 {
+  Message m;
+  /*
 	libusb_device **devs;
 	libusb_device_handle * devh;
 	int r;
@@ -193,5 +194,5 @@ int main(void)
 
 	libusb_exit(NULL);//must be called when program quits
 	free(data);
-	return 0;
+	return 0;*/
 }
