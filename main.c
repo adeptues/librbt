@@ -9,27 +9,56 @@
 #include "motors.h"
 
 
+void clawTest(){
+   lightOn();
+  sleep(1);
+  openClaw();
+  sleep(1);
+  stop();
+  closeClaw();
+  sleep(1);
+  stop();
 
-/*
-static void print_devs(libusb_device **devs)
-{
-	libusb_device *dev;
-	int i = 0;
 
-	while ((dev = devs[i++]) != NULL) {
-		struct libusb_device_descriptor desc;
-		int r = libusb_get_device_descriptor(dev, &desc);
-		if (r < 0) {
-			fprintf(stderr, "failed to get device descriptor");
-			return;
-		}
+  stop();
+}
 
-		printf("%04x:%04x (bus %d, device %d)\n",
-			desc.idVendor, desc.idProduct,
-			libusb_get_bus_number(dev), libusb_get_device_address(dev));
-	}
-}*/
+void m2test(){
+    //funcs here
+  moveM2Up();
+  sleep(1);
+  stop();
+  moveM2Down();
+  sleep(1);
+  stop();
+}
 
+void m3test(){
+    moveM3Up();
+  sleep(1);
+  stop();
+  moveM3Down();
+  sleep(1);
+  stop();
+}
+
+void m4test(){
+    moveM4Up();
+  sleep(1);
+  stop();
+  moveM4Down();
+  sleep(1);
+  stop();
+}
+
+void m5test(){
+    moveM5Clockwise();
+  sleep(1);
+  stop();
+  moveM5AntiClock();
+  sleep(1);
+  stop();
+}
 
 int main(void)
 {
@@ -39,13 +68,12 @@ int main(void)
     printf("application execution failed\n");
     return -1;
   }
-
-  printf("turning light on\n");
-  lightOn();
-  printf("waiting 3 seconds\n");
-  sleep(3);
-  printf("turning light off\n");
-  stop();
+printf("starting device tests please look at the device!\n");
+  clawTest();
+  m2test();
+  m3test();
+  m4test();
+  m5test();
 
   libraryDispose();
  

@@ -9,13 +9,24 @@
 
 //#include "data.h"
 
-extern void lightOn();
-extern void stop();
+ void lightOn();
+ void stop();
 
-extern void moveMotor();
+void moveM2Up();
 
-extern void closeClaw();
+void moveM2Down();
 
-extern void openClaw();
+void moveM3Up();
+void moveM3Down();
+
+void moveM4Down();
+void moveM4Up();
+
+void moveM5Clockwise();
+void moveM5AntiClock();
+
+void closeClaw();
+
+ void openClaw();
 
 #endif /* _MOTORS_H */
