@@ -3,8 +3,10 @@
 
 #include <libusb.h>
 #include <stdlib.h>
+#include <unistd.h>//not portable
 //#include "data.h"
-//#include "armfunc.h"
+#include "armfunc.h"
+#include "motors.h"
 
 
 
@@ -31,7 +33,22 @@ static void print_devs(libusb_device **devs)
 
 int main(void)
 {
- printf("hello world\n");
+  printf("starting lib\n");
+  int r = libraryInit();
+  if(r < 0){
+    printf("application execution failed\n");
+    return -1;
+  }
+
+  printf("turning light on\n");
+  lightOn();
+  printf("waiting 3 seconds\n");
+  sleep(3);
+  printf("turning light off\n");
+  stop();
+
+  libraryDispose();
+ 
 
   return 0;
 }

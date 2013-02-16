@@ -18,6 +18,7 @@
 
 #temp files
 *~
+*swp
 
 #ignore patterns for cmake
 CMakeCache.txt

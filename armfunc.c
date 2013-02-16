@@ -28,7 +28,7 @@ int libraryInit()
         if(isRobotArm(device)) {
             int er = libusb_open(device,&devh);
             if(er < 0) {
-                printf("Could Not Open Device: %s",libusb_error_name(er));
+                printf("Could Not Open Device: %s\n",libusb_error_name(er));
                 return -1;
             }
         }
