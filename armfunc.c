@@ -77,10 +77,6 @@ int libraryDispose()
 
 }
 
-void lightOn()
-{
-
-}
 
 
 int isRobotArm(libusb_device * device){
@@ -92,6 +88,14 @@ int isRobotArm(libusb_device * device){
   return 0;
 
 }
+
+void msgToData(unsigned char* data, Message msg)
+{
+  data = (char *)malloc(sizeof(msg));
+  data[0] = msg.b1;
+
+}
+
 
 static void printRobotInfo(libusb_device **devs){
   	libusb_device *dev;

@@ -4,6 +4,7 @@
 #include <libusb.h>
 #include <stdlib.h>
 #include "data.h"
+#include "armfunc.h"
 
 
 
@@ -106,7 +107,7 @@ int isRobotArm(libusb_device * device){
 
 int main(void)
 {
-  Message m;
+ printf("hello world\n");
   /*
 	libusb_device **devs;
 	libusb_device_handle * devh;
@@ -195,4 +196,5 @@ int main(void)
 	libusb_exit(NULL);//must be called when program quits
 	free(data);
 	return 0;*/
+  return 0;
 }

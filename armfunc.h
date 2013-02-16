@@ -1,8 +1,14 @@
+#ifndef _ARMFUNC_H
+
+#define _ARMFUNC_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
 
 #include <libusb.h>
+
+#include "data.h"
 
 //defines
 #define vid  4711
@@ -24,10 +30,6 @@ static void printRobotInfo(libusb_device **devs);
 
 static void print_devs(libusb_device **devs);
 
-void lightOn();
+void msgToData(unsigned char * data,Message msg);
 
-void moveMotor();
-
-void closeClaw();
-
-void openClaw();
+#endif
