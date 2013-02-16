@@ -95,6 +95,16 @@ libusb_device * findRobotArm(libusb_device **devs){
   return NULL;
 }
 
+int isRobotArm(libusb_device * device){
+  struct libusb_device_descriptor desc;
+  libusb_get_device_descriptor(device,&desc);
+  if(desc.idProduct == pid && desc.idVendor == vid){
+    return 1;
+  }
+  return 0;
+  
+}
+
 int main(void)
 {
 	libusb_device **devs;
@@ -112,7 +122,18 @@ int main(void)
 		return (int) cnt;
 
 	//open device directly with vid and pid
-	devh = libusb_open_device_with_vid_pid(NULL,vid,pid);
+	//devh = libusb_open_device_with_vid_pid(NULL,vid,pid);
+	int i;
+	for(i = 0; i < cnt; i++){
+	  libusb_device * device = devs[i];
+	  if(isRobotArm(device)){
+	    int er = libusb_open(device,&devh);
+	    if(er < 0){
+	      printf("Could Not Open Device: %s",libusb_error_name(er));
+	      return -1;
+	    }
+	  }
+	}
 
 	if(devh == NULL){
 	  printf("Could not open Device\n");
@@ -139,8 +160,20 @@ int main(void)
 	printf("Interface claimed\n");
 
 	unsigned char * data = (char *)malloc(3*sizeof(char));// 3bytes
+	data[0] = 0;
+	data[1] = 0;
+	data[2] = 0xFF;
+	int actual = 0;
+	//do io bulk transfer
+	printf("Sending data\n");
+	//int trans = libusb_bulk_transfer(devh, (129 | LIBUSB_ENDPOINT_OUT), data, 3, &actual, 1000);
+	int trans = libusb_interrupt_transfer(devh,(129 | LIBUSB_ENDPOINT_OUT),data,3,&actual,1000);
 
-	//do io
+	if(trans == 0 && actual == 3){
+	  printf("wrote %s\n",libusb_error_name(trans));
+	}else{
+	  printf("Failed to write to device trans %s actual %d\n",libusb_error_name(trans),actual);
+	}
 	
 	//memory clean up
 	printf("Cleaning up memory\n");
@@ -158,6 +191,6 @@ int main(void)
 	
 
 	libusb_exit(NULL);//must be called when program quits
-	//free(data);
+	free(data);
 	return 0;
 }
